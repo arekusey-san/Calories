@@ -1,6 +1,6 @@
-package org.example.calories.repository;
+package ru.projects.calories.repository;
 
-import org.example.calories.model.Product;
+import ru.projects.calories.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface

@@ -1,9 +1,11 @@
-package org.example.calories.service;
+package ru.projects.calories.service;
 
-import org.example.calories.model.Product;
-import org.example.calories.repository.ProductRepository;
+import ru.projects.calories.model.Product;
+import ru.projects.calories.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService
@@ -16,9 +18,14 @@ public class ProductService
 		this.productRepo = productRepo;
 	}
 
+	public List<Product> getAll()
+	{
+		return this.productRepo.findAll();
+	}
+
 	public Product getProductByName(String name)
 	{
-		return productRepo.findByName(name);
+		return this.productRepo.findByName(name);
 	}
 
 	// Другие методы для управления продуктами

@@ -1,9 +1,11 @@
-package org.example.calories.service;
+package ru.projects.calories.service;
 
-import org.example.calories.model.Dish;
-import org.example.calories.repository.DishRepository;
+import ru.projects.calories.model.Dish;
+import ru.projects.calories.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DishService
@@ -16,8 +18,13 @@ public class DishService
 		this.dishRepo = dishRepo;
 	}
 
+	public List<Dish> getAll()
+	{
+		return this.dishRepo.findAll();
+	}
+
 	public Dish getDishByName(String name)
 	{
-		return dishRepo.findByName(name);
+		return this.dishRepo.findByName(name);
 	}
 }

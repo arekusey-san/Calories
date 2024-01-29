@@ -1,6 +1,8 @@
-package org.example.calories.model;
+package ru.projects.calories.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,15 +13,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "products")
-public class Product
+@Table(name = "users")
+public class User
 {
-    /**
+	/**
 	 * @author Arekusey-tyan
 	 * @reason Use sequence method to identity table id
 	 */
@@ -29,18 +31,23 @@ public class Product
     private Long id;
 */
 
-	private static final String SEQ_NAME = "products_seq";
+	private static final String SEQ_NAME = "dishes_seq";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
 	@SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
 	private Long id;
 
-    private String name;
-    private double calories;
-    private double proteins;
-    private double fats;
-    private double carbohydrates;
+	private String login;
+	private String email;
+	private String password;
+	private boolean archive;
+	private short sex;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
-    // геттеры, сеттеры и другие методы
+	private String lastname;
+	private String name;
+	private String middleName;
+	private String phone;
 }
