@@ -10,5 +10,8 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  flyway:
+    locations: classpath:db/migration
+
 server:
   port: 3009
