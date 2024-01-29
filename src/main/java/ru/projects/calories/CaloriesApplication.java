@@ -1,4 +1,4 @@
-package org.example.calories;
+package ru.projects.calories;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package org.example.calories.model;
+package ru.projects.calories.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

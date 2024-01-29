@@ -1,4 +1,4 @@
-package org.example.calories.dto;
+package ru.projects.calories.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

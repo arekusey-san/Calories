@@ -1,6 +1,6 @@
-package org.example.calories.repository;
+package ru.projects.calories.repository;
 
-import org.example.calories.model.Dish;
+import ru.projects.calories.model.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DishRepository extends JpaRepository<Dish, Long>
