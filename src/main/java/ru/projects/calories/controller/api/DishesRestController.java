@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.projects.calories.dto.DishDTO;
 import ru.projects.calories.model.Dish;
 import ru.projects.calories.service.DishService;
 
@@ -28,7 +29,7 @@ public class DishesRestController
 		this.dishService = dishService;
 	}
 
-	@GetMapping({"", "/"})
+	@GetMapping("")
 	public ResponseEntity<List<Dish>> getDishes()
 	{
 		List<Dish> dishes = this.dishService.getAll();
@@ -45,8 +46,16 @@ public class DishesRestController
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addDish()
+	public ResponseEntity<String> addDish(DishDTO dto)
 	{
+		Dish dish = Dish.builder()
+				.calories(dto.getCalories())
+				.carbohydrates(dto.getCarbohydrates())
+				.proteins(dto.getProteins())
+				.fats(dto.getFats())
+				.name(dto.getName())
+				.build();
+
 		return ResponseEntity.ok("ok");
 	}
 

@@ -1,6 +1,10 @@
 package ru.projects.calories.controller.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.projects.calories.dto.ProductDTO;
 import ru.projects.calories.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +29,7 @@ public class ProductsRestController
 		this.productService = productService;
 	}
 
-	@GetMapping({ "", "/" })
+	@GetMapping("")
 	public ResponseEntity<List<Product>> getProducts()
 	{
 		List<Product> products = productService.getAll();
@@ -39,5 +43,38 @@ public class ProductsRestController
 		Product product = productService.getProductByName(name);
 
 		return ResponseEntity.ok(product);
+	}
+
+	@PostMapping("/add")
+	public ResponseEntity<String> addProduct(ProductDTO dto)
+	{
+		Product product = Product.builder()
+				.calories(dto.getCalories())
+				.carbohydrates(dto.getCarbohydrates())
+				.fats(dto.getFats())
+				.proteins(dto.getProteins())
+				.name(dto.getName())
+				.build();
+
+		return ResponseEntity.ok("ok");
+	}
+
+	@PostMapping("/edit/{id}")
+	public ResponseEntity<Product> editProduct(@PathVariable Long id, ProductDTO dto)
+	{
+		Product product = productService.findById(id);
+
+		return ResponseEntity.ok(product);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	@Operation(
+			description = "Delete product by id"
+	)
+	public ResponseEntity<String> deleteProduct(@PathVariable Long id)
+	{
+		Product product = productService.findById(id);
+
+		return ResponseEntity.ok("ok");
 	}
 }
