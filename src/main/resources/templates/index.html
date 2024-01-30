@@ -1,0 +1,30 @@
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="row">
+		<div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="row" th:if="${admin}">
+						<div class="col-sm-12 col-xs-12">
+							<a th:href="@{/cars/add}"
+							   class="btn btn-sm btn-primary pull-left">
+								<i class="fa fa-plus-circle"></i> Добавить автомобиль
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:insert="~{fragments/footer}"></div>
+</body>

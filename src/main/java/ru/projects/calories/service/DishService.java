@@ -27,4 +27,9 @@ public class DishService
 	{
 		return this.dishRepo.findByName(name);
 	}
+
+	public Dish findById(Long id)
+	{
+		return (this.dishRepo.findById(id)).orElse(null);
+	}
 }
