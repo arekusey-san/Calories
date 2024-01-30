@@ -15,3 +15,21 @@ spring:
 
 server:
   port: 3009
+
+backup:
+  directory: D:/Backup
+
+task:
+  cron:
+    expression: "0 * * * * ?"
+
+mail:
+  from:
+  password:
+  to:
+  smtp:
+    host: smtp.yandex.ru
+    port: 587
+    auth: true
+    starttls:
+      enable: true
