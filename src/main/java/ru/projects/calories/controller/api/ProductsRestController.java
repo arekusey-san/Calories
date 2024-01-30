@@ -1,5 +1,6 @@
 package ru.projects.calories.controller.api;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import ru.projects.calories.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@Tag(name = "Методы работы с продуктами")
 public class ProductsRestController
 {
 	private final ProductService productService;
@@ -22,7 +24,6 @@ public class ProductsRestController
 	{
 		this.productService = productService;
 	}
-
 
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Product>> getProducts()
