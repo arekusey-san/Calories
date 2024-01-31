@@ -1,6 +1,11 @@
 package ru.projects.calories.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.projects.calories.dto.DishDTO;
 import ru.projects.calories.model.Dish;
 import ru.projects.calories.service.DishService;
 
@@ -17,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/dishes")
-@Tag(name = "Методы работы с блюдами")
+@Tag(name = "Блюда", description = "Методы работы с блюдами")
 public class DishesRestController
 {
 	private final DishService dishService;
@@ -28,7 +34,17 @@ public class DishesRestController
 		this.dishService = dishService;
 	}
 
-	@GetMapping({"", "/"})
+	@GetMapping(value = "", produces = { "application/xml", "application/json" })
+	@Operation(summary = "Получение всех блюд", description = "Возвращает массив с блюдами.")
+	@ApiResponses(
+			value = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Успешная операция",
+							content = @Content(array = @ArraySchema(schema = @Schema(implementation = Dish.class)))
+					)
+			}
+	)
 	public ResponseEntity<List<Dish>> getDishes()
 	{
 		List<Dish> dishes = this.dishService.getAll();
@@ -45,8 +61,16 @@ public class DishesRestController
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addDish()
+	public ResponseEntity<String> addDish(DishDTO dto)
 	{
+		Dish dish = Dish.builder()
+				.calories(dto.getCalories())
+				.carbohydrates(dto.getCarbohydrates())
+				.proteins(dto.getProteins())
+				.fats(dto.getFats())
+				.name(dto.getName())
+				.build();
+
 		return ResponseEntity.ok("ok");
 	}
 

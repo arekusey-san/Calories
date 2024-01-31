@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/users")
-@Tag(name = "Методы для работы с пользователями")
-public class UserRestController
+@RequestMapping("/api/v1/other")
+@Tag(name = "Остальные методы")
+public class OtherRestController
 {
 	@GetMapping()
 	public void getUser()
