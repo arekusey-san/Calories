@@ -13,8 +13,34 @@ spring:
   flyway:
     locations: classpath:db/migration
 
+springdoc:
+  api-docs:
+    path: '/api/v1/docs'
+    version: openapi_3_0
+  swagger-ui:
+    path: '/api/v1'
+    groups-order: DESC
+    operations-sorter: method
+    disable-swagger-default-url: true
+  group-configs:
+    - group: products
+      paths-to-match: /api/v1/products/**
+    - group: dishes
+      paths-to-match: /api/v1/dishes/**
+    - group: users
+      paths-to-match: /api/v1/users/**
+    - group: other
+      paths-to-exclude:
+        - /api/v1/products/**
+        - /api/v1/dishes/**
+        - /api/v1/users/**
+  cache:
+    disabled: true
+  override-with-generic-response: false
+
 server:
   port: 3009
+  forward-headers-strategy: framework
 
 pgDump:
   path: 'D:/OSPanel/modules/database/PostgreSQL-14-Win10/bin/pg_dump.exe'
