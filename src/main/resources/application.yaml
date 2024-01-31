@@ -15,3 +15,32 @@ spring:
 
 server:
   port: 3009
+
+pgDump:
+  path: 'D:/OSPanel/modules/database/PostgreSQL-14-Win10/bin/pg_dump.exe'
+  database: 'calories'
+  username: 'postgres'
+  host: 'localhost'
+  port: '5432'
+
+task:
+  cron:
+    expression: "* */30 * * * *"
+
+mail:
+  from: 'ykpon5@yandex.ru'
+  password: 'apubohncvfzwsewn'
+  to: 'a.cher.24top@gmail.com'
+  debug: false
+  smtp:
+    host: smtp.yandex.ru
+    port: 587
+    auth: true
+    starttls:
+      enable: true
+
+backup:
+  directory: 'D:/backup'
+
+zip:
+  path: 'D:/7-Zip/7z.exe'
