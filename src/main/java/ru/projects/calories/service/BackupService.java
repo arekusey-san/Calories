@@ -74,7 +74,8 @@ public class BackupService
 	public void createBackupAndSendEmail()
 	{
 		String pgPath = this.pgDumpPath;
-		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String date = dataFormat.format(new Date());
 
 		File backupDir = new File(this.backupDirectory);
 		if (!backupDir.exists() && backupDir.mkdir())
@@ -83,7 +84,7 @@ public class BackupService
 			return;
 		}
 
-		String backupFileName = "backup_" + dataFormat.format(new Date()) + ".sql";
+		String backupFileName = "backup_" + date + ".sql";
 		String[] command = {
 				pgDumpPath,
 				"-U", this.pgUsername,
@@ -126,7 +127,7 @@ public class BackupService
 				zipProcess.waitFor();
 				System.out.println("Бэкап успешно создан и сжат.");
 
-				sendBackupByEmail(zipFile);
+				sendBackupByEmail(zipFile, date);
 			}
 			else
 			{
@@ -140,7 +141,7 @@ public class BackupService
 		}
 	}
 
-	private void sendBackupByEmail(File backup)
+	private void sendBackupByEmail(File backup, String date)
 	{
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", smtpAuth);
@@ -165,7 +166,7 @@ public class BackupService
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromMail));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
-			message.setSubject("Бэкап базы данных");
+			message.setSubject("Бэкап базы данных от " + date);
 			Multipart multipart = new MimeMultipart();
 			BodyPart body = new MimeBodyPart();
 			body.setText("Вложение: Бэкап базы данных");
