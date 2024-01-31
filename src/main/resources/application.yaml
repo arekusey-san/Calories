@@ -25,7 +25,7 @@ pgDump:
 
 task:
   cron:
-    expression: "* */30 * * * *"
+    expression: "0 30 * * * *"
 
 mail:
   from: 'ykpon5@yandex.ru'
