@@ -36,5 +36,12 @@ public class ProductService
 		return product.orElse(null);
 	}
 
+	public Product save(Product products)
+	{
+		Product product = productRepo.save(products);
+
+		return product;
+	}
+
 	// Другие методы для управления продуктами
 }

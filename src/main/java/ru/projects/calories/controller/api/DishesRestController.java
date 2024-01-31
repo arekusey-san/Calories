@@ -1,6 +1,11 @@
 package ru.projects.calories.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/dishes")
-@Tag(name = "Методы работы с блюдами")
+@Tag(name = "Блюда", description = "Методы работы с блюдами")
 public class DishesRestController
 {
 	private final DishService dishService;
@@ -29,7 +34,17 @@ public class DishesRestController
 		this.dishService = dishService;
 	}
 
-	@GetMapping("")
+	@GetMapping(value = "", produces = { "application/xml", "application/json" })
+	@Operation(summary = "Получение всех блюд", description = "Возвращает массив с блюдами.")
+	@ApiResponses(
+			value = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Успешная операция",
+							content = @Content(array = @ArraySchema(schema = @Schema(implementation = Dish.class)))
+					)
+			}
+	)
 	public ResponseEntity<List<Dish>> getDishes()
 	{
 		List<Dish> dishes = this.dishService.getAll();
