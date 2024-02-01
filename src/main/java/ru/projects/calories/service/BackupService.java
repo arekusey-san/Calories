@@ -167,12 +167,10 @@ public class BackupService
 			message.setFrom(new InternetAddress(fromMail));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
 			message.setSubject("Бэкап базы данных от " + date);
+			message.setText("С уважением, " + fromMail);
 			Multipart multipart = new MimeMultipart();
 			BodyPart body = new MimeBodyPart();
 			body.setText("Вложение: Бэкап базы данных от " + date);
-			multipart.addBodyPart(body);
-			body = new MimeBodyPart();
-			body.setText("\n\nС уважением, " + fromMail);
 			multipart.addBodyPart(body);
 			BodyPart attachment = new MimeBodyPart();
 			attachment.setDataHandler(new DataHandler(new FileDataSource(backup)));
