@@ -43,5 +43,12 @@ public class ProductService
 		return product;
 	}
 
+	public Product delete(Product product)
+	{
+		productRepo.delete(product);
+
+		return product;
+	}
+
 	// Другие методы для управления продуктами
 }

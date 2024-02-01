@@ -1,6 +1,9 @@
 package ru.projects.calories.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,6 +56,24 @@ public class DishesRestController
 	}
 
 	@GetMapping("/{name}")
+	@Operation(
+			summary = "Получение блюда",
+			description = "Возвращает объект блюда с указанным именем на основе Dish.class"
+	)
+	@ApiResponses(
+			value = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Успешная операция",
+							content = {
+									@Content(
+											mediaType = "application/json",
+											schema = @Schema(implementation = Dish.class)
+									)
+							}
+					)
+			}
+	)
 	public ResponseEntity<Dish> getDish(@PathVariable String name)
 	{
 		Dish dish = dishService.getDishByName(name);
@@ -61,6 +82,17 @@ public class DishesRestController
 	}
 
 	@PostMapping("/add")
+	@Operation(
+			summary = "Добавление блюда",
+			description = "Возвращает объект добавленного блюда на основе Dish.class"
+	)
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Успешная операция", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Dish.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
+			}
+	)
 	public ResponseEntity<String> addDish(DishDTO dto)
 	{
 		Dish dish = Dish.builder()
@@ -75,6 +107,22 @@ public class DishesRestController
 	}
 
 	@PostMapping("/edit/{id}")
+	@Operation(
+			summary = "Изменение блюда",
+			description = "Возвращает объект отредактированного блюда с указанным ID на основе Dish.class"
+	)
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Успешная операция", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Dish.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
+			}
+	)
+	@Parameters(
+			value = {
+					@Parameter(name = "id", required = true, description = "ID блюда, который Вы собираетесь изменить.", in = ParameterIn.PATH, schema = @Schema(type = "integer"))
+			}
+	)
 	public ResponseEntity<Dish> editDish(@PathVariable Long id)
 	{
 		Dish dish = dishService.findById(id);
@@ -84,7 +132,26 @@ public class DishesRestController
 
 	@DeleteMapping("/delete/{id}")
 	@Operation(
-			description = "Delete dish by id"
+			summary = "Удаление блюда по его ID",
+			description = "Полностью удалят блюдо по ID из базы данных."
+	)
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Операция выполненеа успешпо", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Dish.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
+			}
+	)
+	@Parameters(
+			value = {
+					@Parameter(
+							name = "id",
+							description = "ID блюда, который вы собираетесь удалить.",
+							required = true,
+							in = ParameterIn.PATH,
+							schema = @Schema(type = "integer")
+					)
+			}
 	)
 	public ResponseEntity<String> deleteDish(@PathVariable Long id)
 	{

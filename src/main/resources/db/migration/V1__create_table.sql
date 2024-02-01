@@ -13,8 +13,8 @@ create table dishes
     primary key (id)
 );
 
-drop sequence if exists product_seq cascade;
-create sequence product_seq start with 1 increment by 1;
+drop sequence if exists products_seq cascade;
+create sequence products_seq start with 1 increment by 1;
 
 drop table if exists products cascade;
 create table products
@@ -45,5 +45,20 @@ create table users
     phone       varchar(255),
     role        varchar(255) check (role in ('USER', 'MANAGER', 'ADMIN')),
     sex         smallint     not null,
+    primary key (id)
+);
+
+drop sequence if exists user_log_seq cascade;
+create sequence user_log_seq start with 1 increment by 1;
+
+drop table if exists user_log cascade;
+create table user_log
+(
+    id        bigint not null,
+    action    varchar(255) check (action in ('ADD_PRODUCT', 'EDIT_PRODUCT', 'DELETE_PRODUCT', 'ADD_DISH', 'EDIT_DISH',
+                                             'DELETE_DISH', 'ADD_USER', 'EDIT_USER', 'DELETE_USER', 'AUTHORIZE')),
+    login     varchar(255),
+    reason    text,
+    timestamp varchar(255),
     primary key (id)
 );

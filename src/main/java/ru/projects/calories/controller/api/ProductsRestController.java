@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.projects.calories.model.Product;
 
+import java.security.ProtectionDomain;
 import java.util.List;
 
 @RestController
@@ -100,7 +101,17 @@ public class ProductsRestController
 	}
 
 	@PostMapping("/add")
-	@Hidden
+	@Operation(
+			summary = "Добавление продукта",
+			description = "Возвращает объект добавленного продукта на основе Product.class"
+	)
+	@ApiResponses(
+			value = {
+					@ApiResponse(responseCode = "200", description = "Успешная операция", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Product.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
+			}
+	)
 	public ResponseEntity<String> addProduct(ProductDTO dto)
 	{
 		Product product = Product.builder()
@@ -110,6 +121,8 @@ public class ProductsRestController
 				.proteins(dto.getProteins())
 				.name(dto.getName())
 				.build();
+
+		productService.save(product);
 
 		return ResponseEntity.ok("ok");
 	}
@@ -121,16 +134,14 @@ public class ProductsRestController
 	)
 	@ApiResponses(
 			value = {
-					@ApiResponse(
-							responseCode = "200",
-							description = "Успешная операция",
-							content = {
-									@Content(
-											mediaType = "appilcation/json",
-											schema = @Schema(implementation = Product.class)
-									)
-							}
-					)
+					@ApiResponse(responseCode = "200", description = "Успешная операция", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Product.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
+			}
+	)
+	@Parameters(
+			value = {
+					@Parameter(name = "id", required = true, description = "ID продукта, который Вы собираетесь изменить.", in = ParameterIn.PATH, schema = @Schema(type = "integer"))
 			}
 	)
 	public ResponseEntity<Product> editProduct(@PathVariable Long id, ProductDTO dto)
@@ -146,9 +157,7 @@ public class ProductsRestController
 		Product saveProduct = productService.save(product);
 
 		if (saveProduct == null)
-		{
 			return ResponseEntity.notFound().build();
-		}
 
 		return ResponseEntity.ok(saveProduct);
 	}
@@ -160,9 +169,9 @@ public class ProductsRestController
 	)
 	@ApiResponses(
 			value = {
-					@ApiResponse(responseCode = "200", description = "Операция выполненеа успешпо", content = {@Content()}, links = {@Link()}),
-					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = {@Content()}, links = {@Link()}),
-					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = {@Content()}, links = {@Link()}),
+					@ApiResponse(responseCode = "200", description = "Операция выполненеа успешпо", content = @Content(mediaType = "appilcation/json", schema = @Schema(implementation = Product.class))),
+					@ApiResponse(responseCode = "401", description = "Упс... Кажется, Вы забыли авторизоваться!", content = @Content),
+					@ApiResponse(responseCode = "403", description = "Упс... Кажется, у Вас недостаточно прав. Вы администратор?", content = @Content)
 			}
 	)
 	@Parameters(
@@ -180,10 +189,10 @@ public class ProductsRestController
 	{
 		Product product = productService.findById(id);
 
+		productService.delete(product);
+
 		if (product == null)
-		{
 			return ResponseEntity.status(404).body("Не удалось найти и удалить продукт с ID: " + id);
-		}
 
 		return ResponseEntity.ok("ok");
 	}
