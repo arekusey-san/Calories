@@ -157,9 +157,7 @@ public class ProductsRestController
 		Product saveProduct = productService.save(product);
 
 		if (saveProduct == null)
-		{
 			return ResponseEntity.notFound().build();
-		}
 
 		return ResponseEntity.ok(saveProduct);
 	}
@@ -194,9 +192,7 @@ public class ProductsRestController
 		productService.delete(product);
 
 		if (product == null)
-		{
 			return ResponseEntity.status(404).body("Не удалось найти и удалить продукт с ID: " + id);
-		}
 
 		return ResponseEntity.ok("ok");
 	}

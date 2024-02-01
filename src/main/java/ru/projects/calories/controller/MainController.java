@@ -24,9 +24,13 @@ public class MainController
 	{
 		model.addAttribute("pageName", "Main page");
 		if (auth != null)
+		{
 			model.addAttribute("admin", auth.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN.name())));
+		}
 		else
+		{
 			model.addAttribute("admin", false);
+		}
 
 		return "index";
 	}

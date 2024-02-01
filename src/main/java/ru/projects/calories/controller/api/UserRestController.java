@@ -73,9 +73,7 @@ public class UserRestController
 		User user = userService.getUserById(id);
 
 		if (user == null)
-		{
 			return ResponseEntity.notFound().build();
-		}
 
 		return ResponseEntity.ok(user);
 	}

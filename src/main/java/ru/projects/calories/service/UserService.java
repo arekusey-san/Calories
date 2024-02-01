@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.projects.calories.model.Role;
 import ru.projects.calories.model.User;
 import ru.projects.calories.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +60,7 @@ public class UserService implements UserDetailsService
 	{
 		User user = this.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(String.format("Пользователь '%s' не найден", login)));
 
-		List<ru.projects.calories.model.Role> roles = new java.util.ArrayList<>();
+		List<Role> roles = new ArrayList<>();
 		roles.add(user.getRole());
 
 		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(

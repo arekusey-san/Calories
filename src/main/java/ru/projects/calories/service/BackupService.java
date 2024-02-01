@@ -5,6 +5,7 @@ import jakarta.activation.FileDataSource;
 import jakarta.mail.Authenticator;
 import jakarta.mail.BodyPart;
 import jakarta.mail.Message;
+import jakarta.mail.Message.RecipientType;
 import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
@@ -104,9 +105,7 @@ public class BackupService
 			{
 				String line;
 				while ((line = errorReader.readLine()) != null)
-				{
 					System.out.println("Ошибка pg_dump: " + line);
-				}
 			}
 			int exitCode = process.waitFor();
 			if (exitCode == 0)
@@ -117,8 +116,8 @@ public class BackupService
 				String[] zipArgs = {
 						"a",
 						"-tgzip",
-						"\"" + zipFile.getAbsolutePath() + "\"",
-						"\"" + outputFile.getAbsolutePath() + "\"",
+						'"' + zipFile.getAbsolutePath() + '"',
+						'"' + outputFile.getAbsolutePath() + '"',
 						"-sdel"
 				};
 				ProcessBuilder zipProcessBuilder = new ProcessBuilder(zipCommand);
@@ -150,7 +149,9 @@ public class BackupService
 		properties.put("mail.smtp.host", smtpHost);
 		properties.put("mail.smtp.port", smtpPort);
 		if (this.mailDebug)
+		{
 			properties.put("mail.debug", "true");
+		}
 
 		Session session = Session.getInstance(properties, new Authenticator()
 		{
@@ -165,7 +166,7 @@ public class BackupService
 		{
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromMail));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
+			message.addRecipient(RecipientType.TO, new InternetAddress(toMail));
 			message.setSubject("Бэкап базы данных от " + date);
 			message.setText("С уважением, " + fromMail);
 			Multipart multipart = new MimeMultipart();
