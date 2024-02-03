@@ -56,6 +56,8 @@ public class User implements UserDetails
 	private String name;
 	private String middleName;
 	private String phone;
+	private double weight;
+	private double height;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities()

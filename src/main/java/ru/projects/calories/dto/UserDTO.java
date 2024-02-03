@@ -23,4 +23,6 @@ public class UserDTO
 	private String name;
 	private String middleName;
 	private String phone;
+	private double height;
+	private double weight;
 }
