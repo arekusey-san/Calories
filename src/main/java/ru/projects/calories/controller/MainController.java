@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.projects.calories.dto.UserDTO;
 import ru.projects.calories.model.Role;
+import ru.projects.calories.model.User;
 import ru.projects.calories.repository.UserRepository;
 
 @Controller
@@ -22,15 +23,22 @@ public class MainController
 	@GetMapping()
 	public String getMain(Model model, Authentication auth)
 	{
-		model.addAttribute("pageName", "Main page");
+		boolean admin;
+		User user;
 		if (auth != null)
 		{
-			model.addAttribute("admin", auth.getAuthorities().contains(new SimpleGrantedAuthority(Role.ADMIN.name())));
+			admin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+			user = this.userRepo.findUserByName(auth.getName()).orElse(null);
 		}
 		else
 		{
-			model.addAttribute("admin", false);
+			admin = false;
+			user = null;
 		}
+
+		model.addAttribute("pageName", "Главная");
+		model.addAttribute("admin", admin);
+		model.addAttribute("user", user);
 
 		return "index";
 	}
