@@ -1,0 +1,106 @@
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="row">
+		<div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="row" th:if="${admin}">
+						<div class="col-sm-12 col-xs-12">
+							<a th:href="@{/users/new}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Новый пользователь</a>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>ФИО пользователя</th>
+							<th>E-Mail пользователя</th>
+							<th>Login пользователя</th>
+							<th>Роль пользователя</th>
+							<th>Действия</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}">Simple id</td>
+							<td th:text="@{${user.name} + ' ' + ${user.middleName} + ', ' + ${user.lastname}}" class="username">Simple Username</td>
+							<td th:text="${user.email}">Simple E-mail</td>
+							<td th:text="${user.login}">Simple E-mail</td>
+							<td th:text="${user.role}">Simple Role</td>
+							<td>
+								<div>
+									<div class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="@{'window.location.href=\'/users/' + ${user.id} + '/view\''}">
+										<i class="fa fa-search" style="font-size: 30px;color: rgb(108, 175, 3);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Просмотр</span>
+									</div>
+									<div th:if="${local != null && (user.login == local.Username || manager || admin)}" class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="@{'window.location.href=\'/users/' + ${user.id} + '/edit\''}">
+										<i class="fa fa-pencil-alt" style="font-size: 30px;color: rgb(108, 175, 3);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px; margin-left: -64px">Изменить</span>
+									</div>
+									<div th:if="${local != null && user.login != local.Username && admin}" class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="'promoteUser(' + ${user.id} + ')'">
+										<i class="fa fa-arrow-up" style="font-size: 30px;color: rgb(108, 175, 3);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Повысить</span>
+									</div>
+									<div class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:if="${local != null && user.login != local.Username && admin}" th:onclick="'demoteUser(' + ${user.id} + ')'">
+										<i class="fa fa-arrow-down" style="font-size: 30px;color: rgb(3, 135, 175);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Понизить</span>
+									</div>
+									<div class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:if="${local != null && user.login != local.Username && admin}" th:onclick="'deleteUser(' + ${user.id} + ')'">
+										<i class="fa fa-times" style="font-size: 30px;color: rgb(191, 0, 0);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Удалить</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="panel-footer"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function promoteUser(id) {
+		fetch(`/users/${id}/promote`, {method: 'PUT'})
+			.then(resp => {
+				if (resp.ok) window.location.reload();
+				else throw Error;
+			})
+			.catch(resp => {
+				alert("User promote error: " + resp);
+			});
+	}
+
+	function demoteUser(id) {
+		fetch(`/users/${id}/demote`, {method: 'PUT'})
+			.then(resp => {
+				if (resp.ok) window.location.reload();
+				else throw Error;
+			})
+			.catch(resp => {
+				alert("User demote error: " + resp);
+			});
+	}
+
+	function deleteUser(id) {
+		fetch(`/users/${id}`, {method: 'DELETE'})
+			.then(resp => {
+				if (resp.ok) window.location.reload();
+				else throw Error;
+			})
+			.catch(resp => {
+				alert("User delete error: " + resp);
+			});
+	}
+</script>
+
+<div th:insert="~{fragments/footer}"></div>
+</body>

@@ -1,0 +1,66 @@
+<div th:replace="~{fragments/head}"></div>
+<link th:href="@{/css/item.css}" rel="stylesheet"/>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="col-md-12">
+		<div
+			data-link="visible{:containerId == ~router.activeContainer && !~router.showPreview}"
+			style="display: block">
+			<div class="lk-main">
+				<div class="lk-item lk-item--user">
+					<a th:href="@{'/users/' + ${user.id} + '/view/details'}"></a>
+					<div class="lk-item__container">
+						<div class="lk-item__top">
+							<div class="lk-item__top-left">
+								<div class="lk-item__user-photo img-plug" th:data-name-letter="${user.name.substring(0, 1).toUpperCase()}">
+									<img width="80" height="80" src="//static-basket-01.wbbasket.ru/vol0/i/v3/user/avatar.png" alt="User avatar">
+								</div>
+							</div>
+							<div class="lk-item__top-main"
+								 data-link="class{merge: !userInfo.isIdentityVerified && ~globalSettings.switches.enableTinkoffIdentification toggle='lk-item__top-main--unverified'}">
+								<h2 class="lk-item__title" th:text="@{${user.name} + ' ' + ${user.middleName} +', ' + ${user.lastname}}">Username, </h2>
+								<div class="lk-item__user-mobile">
+									<p class="hide-desktop" th:text="@{'<span class=\'hide-mobile\'>Телефон</span> ' + ${user.phone}}">null</p>
+									<p class="hide-desktop" th:text="@{'<span class=\'hide-mobile\'>Пол</span> ' + ${user.sex == 1 ? 'жен.' : 'муж.'}}">null</p>
+									<a class="lk-item__edit hide-desktop" href="/lk/newsfeed/events">Личные данные</a>
+									<a class="lk-item__exit hide-mobile" th:if="${thisUser.Username == user.login}" href="/logout">Выйти</a>
+								</div>
+							</div>
+						</div>
+						<div class="lk-item__bottom hide-mobile">
+							<p>Телефон <span th:text="${user.phone}">null</span></p>
+							<p>Пол <span th:text="${user.sex == 1 ? 'жен.' : 'муж.'}">null</span></p>
+						</div>
+					</div>
+				</div>
+				<a th:href="@{'/users/' + ${user.id} + '/view/myinfo'}" class="lk-item lk-item--delivery">
+					<div class="lk-item__container">
+						<div class="lk-item__top">
+							<div class="lk-item__top-left">
+								<div class="lk-item__delivery-icon"></div>
+							</div>
+							<h2 class="lk-item__title">Мои данные</h2>
+						</div>
+						<div class="lk-item__bottom">
+							<div class="lk-item__preloader">
+								<p>Вес: <span th:text="${user.weight}">0</span></p>
+								<p>Рост: <span th:text="${user.height}">0</span></p>
+							</div>
+						</div>
+					</div>
+				</a>
+				<a class="lk-main__exit hide-desktop" href="/webapi/security/exit">Выйти</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:insert="~{fragments/footer}"></div>
+
+<div class="scripts">
+	<script></script>
+</div>
+</body>
