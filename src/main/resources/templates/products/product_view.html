@@ -1,0 +1,42 @@
+<div th:replace="~{fragments/head}"></div>
+<link th:href="@{/css/item.css}" rel="stylesheet"/>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="col-md-12">
+		<div style="display: block">
+			<div class="lk-main">
+				<div class="lk-item lk-item--user">
+					<div class="lk-item__container">
+						<div class="lk-item__top">
+							<div class="lk-item__top-left">
+								<div class="lk-item__user-photo img-plug" th:data-name-letter="${product.name.substring(0, 1).toUpperCase()}">
+									<img width="80" height="80" src="//static-basket-01.wbbasket.ru/vol0/i/v3/user/avatar.png" alt="User avatar">
+								</div>
+							</div>
+							<div class="lk-item__top-main">
+								<h2 class="lk-item__title" th:text="@{${product.name}}"></h2>
+							</div>
+						</div>
+						<div class="lk-item__bottom hide-mobile">
+							<p>Калорийность: <span th:text="@{${product.calories} + ' Ккал.'}">null</span></p>
+							<p>Белки: <span th:text="@{${product.proteins} + ' г.'}">null</span></p>
+							<p>Жиры: <span th:text="@{${product.fats} + ' г.'}">null</span></p>
+							<p>Углеводы: <span th:text="@{${product.carbohydrates} + ' г.'}">null</span></p>
+							<p>Все параметры указаны на 100г. продукта</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:insert="~{fragments/footer}"></div>
+
+<div class="scripts">
+	<script></script>
+</div>
+</body>

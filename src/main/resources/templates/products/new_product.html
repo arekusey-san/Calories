@@ -1,0 +1,42 @@
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<main class="container add_new_user">
+	<div class="registration-form">
+		<form th:action="@{/users/new}" th:object="${user}" th:method="post"
+			  autocomplete="off">
+			<div class="form-icon">
+				<span><i class="icon icon-user"></i></span>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control item" th:field="*{login}"
+					   placeholder="Login">
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control item"
+					   th:field="*{email}" placeholder="E-Mail">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control item"
+					   th:field="*{password}" placeholder="Password">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control item"
+					   th:field="*{matchingPassword}"
+					   placeholder="Confirm password">
+			</div>
+			<div class="form-field col-lg-12">
+				<center>
+					<button type="submit" class="btn btn-block create-account">
+						Добавить
+					</button>
+				</center>
+			</div>
+		</form>
+	</div>
+</main>
+
+<div th:insert="~{fragments/footer}"></div>
+</body>

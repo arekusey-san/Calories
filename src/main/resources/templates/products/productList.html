@@ -1,0 +1,80 @@
+<div th:replace="~{fragments/head}"></div>
+
+<body>
+<div th:insert="~{fragments/header}"></div>
+
+<div class="container">
+	<div class="row">
+		<div>
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-sm-12 col-xs-12">
+							<a th:href="@{/users/new}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Новый продукт</a>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>Название</th>
+							<th>Каллорийность<sup style="color: lightblue;"><i class="fa fa-info-circle"></i></sup></th>
+							<th>Белки<sup style="color: lightblue;"><i class="fa fa-info-circle"></i></sup></th>
+							<th>Жиры<sup style="color: lightblue;"><i class="fa fa-info-circle"></i></sup></th>
+							<th>Углеводы<sup style="color: lightblue;"><i class="fa fa-info-circle"></i></sup></th>
+							<th>Действия</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr th:each="product : ${products}">
+							<td th:text="${product.id}">Simple id</td>
+							<td th:text="${product.name}" class="username">name</td>
+							<td th:text="@{${product.calories} + ' Ккал.'}">Calories</td>
+							<td th:text="@{${product.proteins} + ' г.'}">Proteins</td>
+							<td th:text="@{${product.fats} + ' г.'}">Fats</td>
+							<td th:text="@{${product.carbohydrates} + ' г.'}">Carbohydrates</td>
+							<td>
+								<div>
+									<div class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="@{'window.location.href=\'/products/' + ${product.id} + '/view\''}">
+										<i class="fa fa-search" style="font-size: 30px;color: rgb(108, 175, 3);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Просмотр</span>
+									</div>
+									<div th:if="${manager || admin}" class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="@{'window.location.href=\'/products/' + ${product.id} + '/edit\''}">
+										<i class="fa fa-pencil-alt" style="font-size: 30px;color: rgb(108, 175, 3);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px; margin-left: -64px">Изменить</span>
+									</div>
+									<div th:if="${admin}" class="tooltip2" style="margin-top: 6px;cursor: pointer;" th:onclick="'deleteProduct(' + ${product.id} + ')'">
+										<i class="fa fa-times" style="font-size: 30px;color: rgb(191, 0, 0);margin-inline-end: 7px;"></i>
+										<span class="tooltiptext noselect" style="width: 120px;margin-left: -64px">Удалить</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="panel-footer">
+					<p><i class="fa fa-info-circle" style="color: lightblue"></i> Все показалети указаны на 100 г. продукта</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function deleteProduct(id) {
+		fetch(`/products/${id}`, {method: 'DELETE'})
+			.then(resp => {
+				if (resp.ok) window.location.reload();
+				else throw Error;
+			})
+			.catch(resp => {
+				alert("Product delete error: " + resp);
+			});
+	}
+</script>
+
+<div th:insert="~{fragments/footer}"></div>
+</body>

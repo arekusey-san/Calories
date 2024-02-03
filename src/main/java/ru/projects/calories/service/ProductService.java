@@ -50,5 +50,9 @@ public class ProductService
 		return product;
 	}
 
+	public void deleteById(Long id)
+	{
+		productRepo.deleteById(id);
+	}
 	// Другие методы для управления продуктами
 }
