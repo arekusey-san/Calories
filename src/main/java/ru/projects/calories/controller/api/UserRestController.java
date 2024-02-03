@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.projects.calories.dto.UserDTO;
 import ru.projects.calories.model.User;
 import ru.projects.calories.service.UserService;
 
@@ -42,9 +43,9 @@ public class UserRestController
 					)
 			}
 	)
-	public ResponseEntity<List<User>> getUsers()
+	public ResponseEntity<List<UserDTO>> getUsers()
 	{
-		List<User> users = this.userService.getAll();
+		List<UserDTO> users = this.userService.getAll();
 
 		return ResponseEntity.ok(users);
 	}

@@ -45,6 +45,8 @@ create table users
     phone       varchar(255),
     role        varchar(255) check (role in ('USER', 'MANAGER', 'ADMIN')),
     sex         smallint     not null,
+    weight      float(53)    not null,
+    height      float(53)    not null,
     primary key (id)
 );
 

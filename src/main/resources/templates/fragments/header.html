@@ -5,7 +5,11 @@
 			<div>
 				<a th:href="@{/login}" class="text-white mx-2" sec:authorize="!isAuthenticated()">Вход</a>
 				<a th:href="@{/logout}" class="text-white mx-2" sec:authorize="isAuthenticated()">Выход</a>
-				<a th:href="@{/swagger-ui/index.html#}" class="text-white mx-2">Restful API</a>
+				<a th:href="@{/}" class="text-white mx-2" th:if="${pageName != 'Главная'}">Главная</a>
+				<a th:href="@{/users}" class="text-white mx-2">Пользователи</a>
+				<a th:href="@{/products}" class="text-white mx-2">Продукты</a>
+				<a th:href="@{/dishes}" class="text-white mx-2">Блюда</a>
+				<a th:href="@{/api/v1}" class="text-white mx-2">Restful API</a>
 			</div>
 		</div>
 	</div>

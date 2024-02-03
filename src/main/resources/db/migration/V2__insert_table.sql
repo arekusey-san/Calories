@@ -9,7 +9,7 @@ INSERT INTO products (id, calories, proteins, fats, carbohydrates, name) VALUES
     (nextval('products_seq'), 252.0, 12.45, 3.5, 36.71, 'Хлеб из цельного зерна'),
     (nextval('products_seq'), 548.0, 35.73, 43.27, 1.35, 'Бекон, печеный');
 
-INSERT INTO users (id, archive, email, lastname, login, middle_name, name, password, phone, role, sex) VALUES
-    (nextval('user_seq'), false, 'user1@mail.ru', 'user1', 'user', 'middle_name', 'user', '$2a$10$0vNSN8i.XqVDHv4GUS6lxeS.KZGfvNw5MbNdAllLicejAlFGxUbh.', '7919257****', 'USER', 0),
-    (nextval('user_seq'), false, 'admin@mail.ru', 'admin', 'admin', 'middle_name', 'admin', '$2a$10$0vNSN8i.XqVDHv4GUS6lxeS.KZGfvNw5MbNdAllLicejAlFGxUbh.', '7919257****', 'ADMIN', 1);
+INSERT INTO users (id, archive, email, lastname, login, middle_name, name, password, phone, role, sex, weight, height) VALUES
+    (nextval('user_seq'), false, 'user1@mail.ru', 'user1', 'user', 'middle_name', 'user', '$2a$10$0vNSN8i.XqVDHv4GUS6lxeS.KZGfvNw5MbNdAllLicejAlFGxUbh.', '7919257****', 'USER', 0, 70, 156),
+    (nextval('user_seq'), false, 'admin@mail.ru', 'admin', 'admin', 'middle_name', 'admin', '$2a$10$0vNSN8i.XqVDHv4GUS6lxeS.KZGfvNw5MbNdAllLicejAlFGxUbh.', '7919257****', 'ADMIN', 1, 65, 180);
 

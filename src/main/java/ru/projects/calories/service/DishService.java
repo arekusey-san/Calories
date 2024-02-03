@@ -32,4 +32,9 @@ public class DishService
 	{
 		return this.dishRepo.findById(id).orElse(null);
 	}
+
+	public void deleteById(Long id)
+	{
+		this.dishRepo.deleteById(id);
+	}
 }
